@@ -1569,17 +1569,450 @@ const ERPApp: React.FC = () => {
   };
 
   // ============================================================================
-  // CONTINUE IN NEXT PART DUE TO LENGTH...
+  // QUOTATION MANAGEMENT
   // ============================================================================
 
-  // To be continued with:
-  // - Sales Invoice Management
-  // - Purchase Management
-  // - Payment Management
-  // - Quotation Management
-  // - Reports
-  // - Activity Log
-  // - Print Functions
+  const [showAddQuotation, setShowAddQuotation] = useState(false);
+
+  const QuotationManagement = () => {
+    return (
+      <div>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-800">Quotations</h2>
+          <button
+            onClick={() => setShowAddQuotation(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
+          >
+            + New Quotation
+          </button>
+        </div>
+
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <table className="w-full">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Quotation No</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Customer</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {quotations.map((quotation) => (
+                <tr key={quotation.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm font-medium">{quotation.quotationNo}</td>
+                  <td className="px-6 py-4 text-sm">{quotation.customerName}</td>
+                  <td className="px-6 py-4 text-sm">{formatDate(quotation.date)}</td>
+                  <td className="px-6 py-4 text-sm">{formatCurrency(quotation.total)}</td>
+                  <td className="px-6 py-4 text-sm">
+                    <span className={`px-2 py-1 rounded text-xs ${
+                      quotation.status === "accepted" ? "bg-green-100 text-green-800" :
+                      quotation.status === "sent" ? "bg-blue-100 text-blue-800" :
+                      quotation.status === "rejected" ? "bg-red-100 text-red-800" :
+                      "bg-gray-100 text-gray-800"
+                    }`}>
+                      {quotation.status.toUpperCase()}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-sm">
+                    <button className="text-blue-600 hover:text-blue-800 mr-2">View</button>
+                    <button className="text-green-600 hover:text-green-800">Print</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {quotations.length === 0 && (
+            <div className="text-center py-8 text-gray-500">No quotations created yet</div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  // ============================================================================
+  // SALES INVOICE MANAGEMENT
+  // ============================================================================
+
+  const [showAddInvoice, setShowAddInvoice] = useState(false);
+
+  const InvoiceManagement = () => {
+    return (
+      <div>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-800">Sales Invoices</h2>
+          <button
+            onClick={() => setShowAddInvoice(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
+          >
+            + New Invoice
+          </button>
+        </div>
+
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <table className="w-full">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Invoice No</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Customer</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {invoices.map((invoice) => (
+                <tr key={invoice.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm font-medium">{invoice.invoiceNo}</td>
+                  <td className="px-6 py-4 text-sm">{invoice.customerName}</td>
+                  <td className="px-6 py-4 text-sm">{formatDate(invoice.date)}</td>
+                  <td className="px-6 py-4 text-sm">{formatCurrency(invoice.total)}</td>
+                  <td className="px-6 py-4 text-sm">
+                    <span className={`px-2 py-1 rounded text-xs ${
+                      invoice.status === "paid" ? "bg-green-100 text-green-800" :
+                      invoice.status === "issued" ? "bg-blue-100 text-blue-800" :
+                      invoice.status === "cancelled" ? "bg-red-100 text-red-800" :
+                      "bg-gray-100 text-gray-800"
+                    }`}>
+                      {invoice.status.toUpperCase()}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-sm">
+                    <button className="text-blue-600 hover:text-blue-800 mr-2">View</button>
+                    <button className="text-green-600 hover:text-green-800">Print</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {invoices.length === 0 && (
+            <div className="text-center py-8 text-gray-500">No invoices created yet</div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  // ============================================================================
+  // PURCHASE MANAGEMENT
+  // ============================================================================
+
+  const [showAddPurchase, setShowAddPurchase] = useState(false);
+
+  const PurchaseManagement = () => {
+    return (
+      <div>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-800">Purchase Invoices</h2>
+          <button
+            onClick={() => setShowAddPurchase(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
+          >
+            + New Purchase
+          </button>
+        </div>
+
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <table className="w-full">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Purchase No</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Vendor</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {purchases.map((purchase) => (
+                <tr key={purchase.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm font-medium">{purchase.purchaseNo}</td>
+                  <td className="px-6 py-4 text-sm">{purchase.vendorName}</td>
+                  <td className="px-6 py-4 text-sm">{formatDate(purchase.date)}</td>
+                  <td className="px-6 py-4 text-sm">{formatCurrency(purchase.total)}</td>
+                  <td className="px-6 py-4 text-sm">
+                    <span className="px-2 py-1 rounded text-xs bg-blue-100 text-blue-800">
+                      {purchase.status.toUpperCase()}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-sm">
+                    <button className="text-blue-600 hover:text-blue-800">View</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {purchases.length === 0 && (
+            <div className="text-center py-8 text-gray-500">No purchases recorded yet</div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  // ============================================================================
+  // PAYMENT MANAGEMENT
+  // ============================================================================
+
+  const [showAddPayment, setShowAddPayment] = useState(false);
+
+  const PaymentManagement = () => {
+    return (
+      <div>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-800">Payment Records</h2>
+          <button
+            onClick={() => setShowAddPayment(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
+          >
+            + Record Payment
+          </button>
+        </div>
+
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <table className="w-full">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Payment No</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Invoice No</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Customer</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Mode</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {payments.map((payment) => (
+                <tr key={payment.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm font-medium">{payment.paymentNo}</td>
+                  <td className="px-6 py-4 text-sm">{payment.invoiceNo}</td>
+                  <td className="px-6 py-4 text-sm">{payment.customerName}</td>
+                  <td className="px-6 py-4 text-sm">{formatDate(payment.date)}</td>
+                  <td className="px-6 py-4 text-sm font-semibold text-green-600">{formatCurrency(payment.amount)}</td>
+                  <td className="px-6 py-4 text-sm">
+                    <span className="px-2 py-1 rounded text-xs bg-purple-100 text-purple-800">
+                      {payment.mode}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {payments.length === 0 && (
+            <div className="text-center py-8 text-gray-500">No payments recorded yet</div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  // ============================================================================
+  // JOURNAL
+  // ============================================================================
+
+  const JournalView = () => {
+    return (
+      <div>
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">Journal Entries</h2>
+
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <table className="w-full">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Entry No</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Debit</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Credit</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Balance</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {journalEntries.map((entry) => (
+                <tr key={entry.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm font-medium">{entry.entryNo}</td>
+                  <td className="px-6 py-4 text-sm">{formatDate(entry.date)}</td>
+                  <td className="px-6 py-4 text-sm capitalize">{entry.type}</td>
+                  <td className="px-6 py-4 text-sm">{entry.description}</td>
+                  <td className="px-6 py-4 text-sm text-red-600">{entry.debit > 0 ? formatCurrency(entry.debit) : "-"}</td>
+                  <td className="px-6 py-4 text-sm text-green-600">{entry.credit > 0 ? formatCurrency(entry.credit) : "-"}</td>
+                  <td className="px-6 py-4 text-sm font-semibold">{formatCurrency(entry.balance)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {journalEntries.length === 0 && (
+            <div className="text-center py-8 text-gray-500">No journal entries yet</div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  // ============================================================================
+  // REPORTS
+  // ============================================================================
+
+  const ReportsView = () => {
+    const [reportType, setReportType] = useState("sales");
+    const [dateFrom, setDateFrom] = useState("");
+    const [dateTo, setDateTo] = useState(getTodayString());
+
+    const totalSales = invoices.filter(i => i.status !== "cancelled").reduce((sum, inv) => sum + inv.total, 0);
+    const totalPurchases = purchases.reduce((sum, pur) => sum + pur.total, 0);
+    const totalPayments = payments.reduce((sum, pay) => sum + pay.amount, 0);
+    const pendingAmount = totalSales - totalPayments;
+
+    const totalGST = invoices.reduce((sum, inv) => sum + inv.cgst + inv.sgst + inv.igst, 0);
+
+    return (
+      <div>
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">Reports & Analytics</h2>
+
+        <div className="mb-6 bg-white p-4 rounded-lg shadow">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Report Type</label>
+              <select
+                value={reportType}
+                onChange={(e) => setReportType(e.target.value)}
+                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="sales">Sales Report</option>
+                <option value="purchase">Purchase Report</option>
+                <option value="gst">GST Report</option>
+                <option value="profit">Profit & Loss</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">From Date</label>
+              <input
+                type="date"
+                value={dateFrom}
+                onChange={(e) => setDateFrom(e.target.value)}
+                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">To Date</label>
+              <input
+                type="date"
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+          <button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition">
+            Generate Report
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+          <div className="bg-white p-6 rounded-lg shadow">
+            <p className="text-sm text-gray-600 mb-1">Total Sales</p>
+            <p className="text-2xl font-bold text-green-600">{formatCurrency(totalSales)}</p>
+            <p className="text-xs text-gray-500 mt-1">{invoices.length} invoices</p>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow">
+            <p className="text-sm text-gray-600 mb-1">Total Purchases</p>
+            <p className="text-2xl font-bold text-orange-600">{formatCurrency(totalPurchases)}</p>
+            <p className="text-xs text-gray-500 mt-1">{purchases.length} purchases</p>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow">
+            <p className="text-sm text-gray-600 mb-1">Total GST Collected</p>
+            <p className="text-2xl font-bold text-blue-600">{formatCurrency(totalGST)}</p>
+            <p className="text-xs text-gray-500 mt-1">All invoices</p>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow">
+            <p className="text-sm text-gray-600 mb-1">Pending Amount</p>
+            <p className="text-2xl font-bold text-red-600">{formatCurrency(pendingAmount)}</p>
+            <p className="text-xs text-gray-500 mt-1">Receivables</p>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow p-6">
+          <h3 className="text-lg font-semibold mb-4">Quick Summary</h3>
+          <div className="space-y-3">
+            <div className="flex justify-between items-center py-2 border-b">
+              <span className="text-gray-600">Total Customers</span>
+              <span className="font-semibold">{customers.length}</span>
+            </div>
+            <div className="flex justify-between items-center py-2 border-b">
+              <span className="text-gray-600">Total Vendors</span>
+              <span className="font-semibold">{vendors.length}</span>
+            </div>
+            <div className="flex justify-between items-center py-2 border-b">
+              <span className="text-gray-600">Total Products</span>
+              <span className="font-semibold">{products.length}</span>
+            </div>
+            <div className="flex justify-between items-center py-2 border-b">
+              <span className="text-gray-600">Total Payments Received</span>
+              <span className="font-semibold">{formatCurrency(totalPayments)}</span>
+            </div>
+            <div className="flex justify-between items-center py-2">
+              <span className="text-gray-600">Gross Profit</span>
+              <span className="font-semibold text-green-600">{formatCurrency(totalSales - totalPurchases)}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // ============================================================================
+  // ACTIVITY LOG
+  // ============================================================================
+
+  const ActivityLogView = () => {
+    return (
+      <div>
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">Activity Log</h2>
+
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <table className="w-full">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Timestamp</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Module</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Activity</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Details</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {activityLog.map((log) => (
+                <tr key={log.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm">
+                    {new Date(log.timestamp).toLocaleString("en-IN")}
+                  </td>
+                  <td className="px-6 py-4 text-sm">{log.user}</td>
+                  <td className="px-6 py-4 text-sm">
+                    <span className="px-2 py-1 rounded text-xs bg-blue-100 text-blue-800">
+                      {log.module}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-sm font-medium">{log.activity}</td>
+                  <td className="px-6 py-4 text-sm text-gray-600">{log.details}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {activityLog.length === 0 && (
+            <div className="text-center py-8 text-gray-500">No activity recorded yet</div>
+          )}
+        </div>
+      </div>
+    );
+  };
 
   // Main content view switcher
   let content;
@@ -1596,7 +2029,27 @@ const ERPApp: React.FC = () => {
     case "products":
       content = <ProductManagement />;
       break;
-    // More cases will be added...
+    case "quotations":
+      content = <QuotationManagement />;
+      break;
+    case "invoices":
+      content = <InvoiceManagement />;
+      break;
+    case "purchases":
+      content = <PurchaseManagement />;
+      break;
+    case "payments":
+      content = <PaymentManagement />;
+      break;
+    case "journal":
+      content = <JournalView />;
+      break;
+    case "reports":
+      content = <ReportsView />;
+      break;
+    case "activity":
+      content = <ActivityLogView />;
+      break;
     default:
       content = <Dashboard />;
   }
